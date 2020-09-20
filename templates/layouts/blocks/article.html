@@ -1,0 +1,17 @@
+<div class="post-preview">
+	<a href="{{.Link}}" target="_blank">
+		<h2 class="post-title">
+            {{.Title}}
+		</h2>
+	</a>
+	<h3 class="post-subtitle">
+        {{range .Tags}}
+			<span class="badge badge-pill badge-secondary">{{.}}</span>
+        {{end}}
+	</h3>
+	<p class="post-meta">Posted by
+		<span>{{.Author}}</span>
+		on {{with $x := dateTimeFormat .Date}}{{$x.FormatToLocalDateTime}}{{end}}
+	</p>
+</div>
+<hr>

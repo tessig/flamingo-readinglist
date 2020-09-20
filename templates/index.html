@@ -1,0 +1,14 @@
+{{template "pages/site.html" .}}
+
+{{define "headline"}}My Reading List{{end}}
+{{define "subheader"}}The more you read the fuller it gets -.-{{end}}
+
+{{define "content"}}
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+      {{range .Articles}}
+        {{template "blocks/article.html" .}}
+      {{end}}
+    </div>
+  </div>
+{{end}}
