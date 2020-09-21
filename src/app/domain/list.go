@@ -34,7 +34,6 @@ func init() {
 
 // AddArticle to the list
 func (l *ReadingList) AddArticle(ctx context.Context, a Article) {
-
 	ctx, _ = tag.New(ctx, tag.Upsert(keyListID, l.ID))
 	stats.Record(ctx, stat.M(1))
 	l.Articles = append(l.Articles, a)

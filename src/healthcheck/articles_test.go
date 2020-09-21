@@ -14,8 +14,8 @@ type (
 	}
 )
 
-func (r *repoMock) All(context.Context) []domain.Article {
-	return r.articles
+func (r *repoMock) All(context.Context) ([]domain.Article, error) {
+	return r.articles, nil
 }
 
 func (r *repoMock) Get(context.Context, string) (domain.Article, error) {

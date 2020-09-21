@@ -20,7 +20,7 @@ type (
 var _ domain.ArticleRepository = new(Articles)
 
 // All Articles
-func (a *Articles) All(ctx context.Context) []domain.Article {
+func (a *Articles) All(ctx context.Context) ([]domain.Article, error) {
 	ctx, span := trace.StartSpan(ctx, "app/fake/articles/all")
 	defer span.End()
 
@@ -29,7 +29,7 @@ func (a *Articles) All(ctx context.Context) []domain.Article {
 		result[i], _ = a.Get(ctx, strconv.Itoa(i))
 	}
 
-	return result
+	return result, nil
 }
 
 // Get returns a fake article with the given ID and never fails

@@ -28,7 +28,10 @@ func (a *Articles) Inject(
 
 // Status of the remote article source
 func (a *Articles) Status() (bool, string) {
-	articles := a.repo.All(context.Background())
+	articles, err := a.repo.All(context.Background())
+	if err != nil {
+		return false, err.Error()
+	}
 	if len(articles) == 0 {
 		return false, "No articles found"
 	}

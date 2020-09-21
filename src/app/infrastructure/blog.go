@@ -40,13 +40,13 @@ func (b *BlogService) Inject(
 }
 
 // All the articles
-func (b *BlogService) All(ctx context.Context) []domain.Article {
+func (b *BlogService) All(ctx context.Context) ([]domain.Article, error) {
 	ctx, span := trace.StartSpan(ctx, "app/infrastructure/blog-service/all")
 	defer span.End()
 	resp, err := b.client.Get(b.baseURL + "/articles")
 	if err != nil {
 		b.logger.WithContext(ctx).Error(err)
-		return nil
+		return nil, err
 	}
 
 	defer func() {
@@ -57,7 +57,7 @@ func (b *BlogService) All(ctx context.Context) []domain.Article {
 
 	if resp.StatusCode != http.StatusOK {
 		b.logger.WithContext(ctx).Error("Service responded with http status code: " + strconv.Itoa(resp.StatusCode))
-		return nil
+		return nil, err
 	}
 
 	var articles dto.Articles
@@ -65,9 +65,10 @@ func (b *BlogService) All(ctx context.Context) []domain.Article {
 	err = json.NewDecoder(resp.Body).Decode(&articles)
 	if err != nil {
 		b.logger.WithContext(ctx).Error(err)
+		return nil, err
 	}
 
-	return articles.MapToDomainModel()
+	return articles.MapToDomainModel(), nil
 }
 
 // Get single article

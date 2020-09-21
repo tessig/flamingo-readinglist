@@ -38,7 +38,10 @@ func (a *ArticlesController) List(ctx context.Context, r *web.Request) web.Resul
 	ctx, span := trace.StartSpan(ctx, "app/controller/articles/list")
 	defer span.End()
 
-	articles := a.articleRepo.All(ctx)
+	articles, err := a.articleRepo.All(ctx)
+	if err != nil {
+		return a.responder.ServerError(err)
+	}
 
 	return a.responder.Render("articles", articles)
 }

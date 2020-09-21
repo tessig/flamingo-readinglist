@@ -19,7 +19,7 @@ type (
 
 	// ArticleRepository can fetch Articles
 	ArticleRepository interface {
-		All(ctx context.Context) []Article
+		All(ctx context.Context) ([]Article, error)
 		Get(ctx context.Context, id string) (Article, error)
 	}
 )
