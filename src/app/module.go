@@ -6,6 +6,7 @@ import (
 
 	"github.com/tessig/flamingo-readinglist/src/app/application/fake"
 	"github.com/tessig/flamingo-readinglist/src/app/domain"
+	"github.com/tessig/flamingo-readinglist/src/app/infrastructure"
 	"github.com/tessig/flamingo-readinglist/src/app/interfaces/controller"
 )
 
@@ -38,6 +39,8 @@ func (m *Module) Configure(injector *dingo.Injector) {
 
 	if m.useFakeArticles {
 		injector.Bind(new(domain.ArticleRepository)).To(new(fake.Articles))
+	} else {
+		injector.Bind(new(domain.ArticleRepository)).To(new(infrastructure.BlogService))
 	}
 }
 
@@ -46,6 +49,9 @@ func (m *Module) CueConfig() string {
 	return `
 articles: {
     useFake: bool|*false
+	api: {
+        baseURL: string|*"http://localhost:8000"
+	}
 }
 `
 }

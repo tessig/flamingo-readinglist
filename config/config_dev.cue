@@ -5,5 +5,3 @@ core: zap: {
 }
 
 flamingo: debug: mode: true
-
-articles: useFake: true

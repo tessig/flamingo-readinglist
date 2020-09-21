@@ -9,6 +9,15 @@ networks:
   back-tier:
 
 services:
+  blog-service:
+    image: carstendietrich/dummy-php-golang-blog-parser
+    ports:
+      - "8000:8000"
+    environment:
+      - "APP_DEBUG=true"
+      - "JAEGER_HOST=jaeger"
+      - "JAEGER_PORT=6831"
+      - "JAEGER_SERVICE_NAME=php-blog-service"
   jaeger:
     image: jaegertracing/all-in-one:1.19.2
     environment:
