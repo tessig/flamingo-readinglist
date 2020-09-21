@@ -6,21 +6,39 @@ import (
 	"errors"
 	"net/http"
 	"strconv"
+	"time"
 
 	"flamingo.me/flamingo/v3/framework/flamingo"
+	"flamingo.me/flamingo/v3/framework/opencensus"
+	"go.opencensus.io/stats"
+	"go.opencensus.io/stats/view"
+	"go.opencensus.io/tag"
 	"go.opencensus.io/trace"
 
 	"github.com/tessig/flamingo-readinglist/src/app/domain"
 	"github.com/tessig/flamingo-readinglist/src/app/infrastructure/dto"
 )
 
-var _ domain.ArticleRepository = &BlogService{}
+var (
+	_              domain.ArticleRepository = &BlogService{}
+	stat                                    = stats.Int64("readinglist/blog/response_time", "response time of article fetching", stats.UnitMilliseconds)
+	keyEndpoint, _                          = tag.NewKey("endpoint")
+)
 
 // BlogService is an implementation for a e external service
 type BlogService struct {
 	logger  flamingo.Logger
 	client  *http.Client
 	baseURL string
+}
+
+func init() {
+	_ = opencensus.View(
+		"readinglist/blog/response_time",
+		stat,
+		view.Distribution(100, 500, 1000, 2500, 5000, 10000),
+		keyEndpoint,
+	)
 }
 
 // Inject dependencies
@@ -43,7 +61,12 @@ func (b *BlogService) Inject(
 func (b *BlogService) All(ctx context.Context) ([]domain.Article, error) {
 	ctx, span := trace.StartSpan(ctx, "app/infrastructure/blog-service/all")
 	defer span.End()
+
+	start := time.Now()
+
 	resp, err := b.client.Get(b.baseURL + "/articles")
+	ctx, _ = tag.New(ctx, tag.Upsert(keyEndpoint, "articles"))
+	stats.Record(ctx, stat.M(time.Since(start).Nanoseconds()/1000000))
 	if err != nil {
 		b.logger.WithContext(ctx).Error(err)
 		return nil, err
@@ -75,7 +98,12 @@ func (b *BlogService) All(ctx context.Context) ([]domain.Article, error) {
 func (b *BlogService) Get(ctx context.Context, id string) (domain.Article, error) {
 	ctx, span := trace.StartSpan(ctx, "app/infrastructure/blog-service/single")
 	defer span.End()
+
+	start := time.Now()
+
 	resp, err := b.client.Get(b.baseURL + "/articles/id/" + id)
+	ctx, _ = tag.New(ctx, tag.Upsert(keyEndpoint, "articles/id"))
+	stats.Record(ctx, stat.M(time.Since(start).Nanoseconds()/1000000))
 	if err != nil {
 		b.logger.WithContext(ctx).Error(err)
 		return domain.Article{}, err
