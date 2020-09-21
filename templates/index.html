@@ -8,6 +8,8 @@
     <div class="col-lg-8 col-md-10 mx-auto">
       {{range .Articles}}
         {{template "blocks/article.html" .}}
+      {{else}}
+        <p>🤷‍♂️ No articles on the list.</p>
       {{end}}
     </div>
   </div>
