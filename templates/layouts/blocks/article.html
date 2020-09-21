@@ -11,7 +11,7 @@
 	</h3>
 	<p class="post-meta">Posted by
 		<span>{{.Author}}</span>
-		on {{with $x := dateTimeFormat .Date}}{{$x.FormatToLocalDateTime}}{{end}}
+		on {{with $x := dateTimeFormat .Date}}{{$x.FormatToLocalDate}}{{end}}
 	</p>
 </div>
 <hr>
