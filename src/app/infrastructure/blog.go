@@ -63,8 +63,11 @@ func (b *BlogService) All(ctx context.Context) ([]domain.Article, error) {
 	defer span.End()
 
 	start := time.Now()
-
-	resp, err := b.client.Get(b.baseURL + "/articles")
+	req, err := http.NewRequest("GET", b.baseURL+"/articles", nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := b.client.Do(req)
 	ctx, _ = tag.New(ctx, tag.Upsert(keyEndpoint, "articles"))
 	stats.Record(ctx, stat.M(time.Since(start).Nanoseconds()/1000000))
 	if err != nil {
@@ -101,7 +104,11 @@ func (b *BlogService) Get(ctx context.Context, id string) (domain.Article, error
 
 	start := time.Now()
 
-	resp, err := b.client.Get(b.baseURL + "/articles/id/" + id)
+	req, err := http.NewRequest("GET", "/articles/id/"+id, nil)
+	if err != nil {
+		return domain.Article{}, err
+	}
+	resp, err := b.client.Do(req.WithContext(ctx))
 	ctx, _ = tag.New(ctx, tag.Upsert(keyEndpoint, "articles/id"))
 	stats.Record(ctx, stat.M(time.Since(start).Nanoseconds()/1000000))
 	if err != nil {
