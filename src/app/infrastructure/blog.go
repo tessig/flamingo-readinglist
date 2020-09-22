@@ -67,7 +67,7 @@ func (b *BlogService) All(ctx context.Context) ([]domain.Article, error) {
 	if err != nil {
 		return nil, err
 	}
-	resp, err := b.client.Do(req)
+	resp, err := b.client.Do(req.WithContext(ctx))
 	ctx, _ = tag.New(ctx, tag.Upsert(keyEndpoint, "articles"))
 	stats.Record(ctx, stat.M(time.Since(start).Nanoseconds()/1000000))
 	if err != nil {

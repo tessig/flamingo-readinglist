@@ -5,3 +5,4 @@ core: zap: {
 }
 
 flamingo: debug: mode: true
+articles: api: baseURL: "http://localhost:8000"
