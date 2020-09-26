@@ -104,7 +104,7 @@ func (b *BlogService) Get(ctx context.Context, id string) (domain.Article, error
 
 	start := time.Now()
 
-	req, err := http.NewRequest("GET", "/articles/id/"+id, nil)
+	req, err := http.NewRequest("GET", b.baseURL+"/articles/id/"+id, nil)
 	if err != nil {
 		return domain.Article{}, err
 	}
