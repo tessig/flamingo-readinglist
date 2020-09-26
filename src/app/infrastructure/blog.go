@@ -36,7 +36,7 @@ func init() {
 	_ = opencensus.View(
 		"readinglist/blog/response_time",
 		stat,
-		view.Distribution(100, 500, 1000, 2500, 5000, 10000),
+		view.Distribution(100, 500, 600, 700, 800, 900, 1000, 5000),
 		keyEndpoint,
 	)
 }

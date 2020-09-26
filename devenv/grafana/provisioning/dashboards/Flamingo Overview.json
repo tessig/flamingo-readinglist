@@ -122,7 +122,8 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -152,10 +153,8 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": true,
+      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -221,7 +220,8 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -252,10 +252,8 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -380,7 +378,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "7.0.3",
+      "pluginVersion": "7.1.5",
       "targets": [
         {
           "expr": "sum(increase(flamingo_response_bytes_count[1m]))",
@@ -493,7 +491,8 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -524,10 +523,8 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -620,7 +617,8 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -652,10 +650,8 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -727,20 +723,7 @@
       "fieldConfig": {
         "defaults": {
           "custom": {},
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
+          "links": []
         },
         "overrides": []
       },
@@ -768,11 +751,8 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
-      "pluginVersion": "7.0.3",
+      "pluginVersion": "7.1.5",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -835,13 +815,14 @@
     },
     {
       "aliasColors": {},
-      "bars": true,
+      "bars": false,
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -854,24 +835,26 @@
         "y": 12
       },
       "hiddenSeries": false,
-      "id": 35,
+      "id": 42,
       "legend": {
+        "alignAsTable": false,
         "avg": false,
         "current": false,
+        "hideEmpty": false,
         "max": false,
         "min": false,
-        "show": false,
+        "rightSide": false,
+        "show": true,
         "total": false,
         "values": false
       },
-      "lines": false,
-      "linewidth": 1,
+      "lines": true,
+      "linewidth": 3,
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
+      "percentage": true,
+      "pluginVersion": "7.1.5",
+      "pointradius": 5,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [],
@@ -880,10 +863,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sort_desc(sum by (productID) (increase(rating_metrics_amount[10m])))",
-          "instant": true,
+          "expr": "histogram_quantile(0.95, sum(rate(readinglist_blog_response_time_bucket[5m])) by (endpoint,le))",
+          "format": "time_series",
+          "instant": false,
           "interval": "",
-          "legendFormat": "{{productID}}",
+          "intervalFactor": 1,
+          "legendFormat": "{{endpoint}}",
           "refId": "A"
         }
       ],
@@ -891,34 +876,32 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Ratings increase by product",
+      "title": "API response time 95% quantile",
       "tooltip": {
-        "shared": false,
-        "sort": 1,
+        "shared": true,
+        "sort": 0,
         "value_type": "individual"
       },
       "type": "graph",
       "xaxis": {
         "buckets": null,
-        "mode": "series",
+        "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-          "total"
-        ]
+        "values": []
       },
       "yaxes": [
         {
-          "$$hashKey": "object:411",
-          "format": "short",
-          "label": null,
+          "$$hashKey": "object:378",
+          "format": "none",
+          "label": "time in ms",
           "logBase": 1,
           "max": null,
           "min": null,
           "show": true
         },
         {
-          "$$hashKey": "object:412",
+          "$$hashKey": "object:379",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -937,7 +920,7 @@
       "fieldConfig": {
         "defaults": {
           "custom": {},
-          "decimals": 2,
+          "decimals": 0,
           "mappings": [],
           "min": 0,
           "noValue": "N/A",
@@ -970,7 +953,9 @@
       },
       "id": 37,
       "options": {
-        "displayMode": "lcd",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -979,13 +964,14 @@
           "fields": "",
           "values": false
         },
-        "showUnfilled": true
+        "textMode": "auto"
       },
-      "pluginVersion": "7.0.3",
+      "pluginVersion": "7.1.5",
       "targets": [
         {
-          "expr": "sum(increase(rating_metrics_amount[1m]))",
-          "instant": false,
+          "expr": "readinglist_articles_amount{ListID=\"main\"}",
+          "format": "time_series",
+          "instant": true,
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -993,19 +979,19 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Ratings per minute",
-      "type": "bargauge"
+      "title": "Articles added to List",
+      "type": "stat"
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 25,
+  "schemaVersion": 26,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {
@@ -1036,5 +1022,5 @@
   "timezone": "",
   "title": "Flamingo Details",
   "uid": "z9KDhE0Zk",
-  "version": 3
+  "version": 1
 }
