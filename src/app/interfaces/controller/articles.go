@@ -34,7 +34,7 @@ func (a *ArticlesController) Inject(
 }
 
 // List all articles
-func (a *ArticlesController) List(ctx context.Context, r *web.Request) web.Result {
+func (a *ArticlesController) List(ctx context.Context, _ *web.Request) web.Result {
 	ctx, span := trace.StartSpan(ctx, "app/controller/articles/list")
 	defer span.End()
 
@@ -91,5 +91,5 @@ func (a *ArticlesController) AddToList(ctx context.Context, r *web.Request) web.
 		return a.responder.ServerError(err)
 	}
 
-	return a.responder.RouteRedirect("/", nil)
+	return a.responder.RouteRedirect("/articles", nil)
 }
