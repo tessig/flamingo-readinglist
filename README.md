@@ -31,3 +31,7 @@ The config in `config/config_dev.cue` matches the docker-compose setup.
 
 The app will be under http://localhost:3322/
 The metrics endpoint will be under http://localhost:13210/metrics
+
+## PHP Service
+
+The source code of the PHP service that parses the golang blog can be founde here: https://github.com/carstendietrich/php-golang-blog-parser
